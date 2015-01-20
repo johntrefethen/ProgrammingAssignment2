@@ -1,20 +1,21 @@
-## This file contains two functions - makeCacheMatrix() and cacheSolve()
+## cachematrix.R
+# Contains two functions:
 ## makeCacheMatrix - takes a matrix, stores it, and returns functions that can 
 ## get or set the matrix, as well as get or set the inverse of the matrix
 ## cacheSolve - take a list in the form of the return value from makeCacheMatrix()
 ## then determines the inverse by looking in cache first, and if not in cache, 
 ## computing the value using solve() function and returning it.
 
-## Write a short comment describing this function
-
+## makeCacheMatrix - caches a matrix, and returns list of 
+#     that can be called to perform certain functions on that matrix.
+# Args:
+#     x: a matrix, assumed to be square and invertible.
+#
+# Returns:
+#    A list with function names to perform certain operations on a matrix.
 makeCacheMatrix <- function(x = matrix()) {
         # create variable to hold the inverse of the matrix passed in
         inv <- NULL
-        
-        # check our environments
-        print(environment())
-        evn <- environment()
-        print(parent.env(evn))
         
         # set the value of the matrix, and set variable holding
         # inverse of the matrix to NULL (essentially, reset the inv)
@@ -44,31 +45,34 @@ makeCacheMatrix <- function(x = matrix()) {
              getevn = getevn)
 }
 
-
-## Function cacheSolve takes a list input variable and determines 
-## the inverse of the matrix included in the list.
-
+# cacheSolve - Computes inverse of a matrix either by pulling value from cache
+# or solving using the solve() function
+#
+# Args:
+# x: A list containing function names to perform various operations
+#    on a matrix
+#
+# Returns:
+#    Inverse of the matix stored in cache by the makeCacheMatrix function
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
         
         # create a variable to hold the matrix
         inv <- x$getinverse()
 
-        #print(inv)
         # check if it is NOT NULL
         # if NOT NULL, then return the result of solve(x)
         if (!is.null(inv)) {
+                
+                # the inverse exists in cache - return it
                 print("inside if")
                 print("getting cached data")
-                
-                # Need a check here to confirm matrix has not changed
                 
                 return(inv)
         }
         
-        # if we get here, matrix inverse was NULL
-        # set the inverse using set function
-        # then get it inverse using get
+        # if we get here, matrix inverse was NULL - solve for inverse
+        # then set the inverse value using set function 
+        # finally, return inverse value
         print("after if loop")
         data <- x$get()
         inv <- solve(data)
