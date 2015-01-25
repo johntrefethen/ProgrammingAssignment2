@@ -64,8 +64,7 @@ cacheSolve <- function(x, ...) {
         if (!is.null(inv)) {
                 
                 # the inverse exists in cache - return it
-                print("inside if")
-                print("getting cached data")
+                message("getting cached data")
                 
                 return(inv)
         }
@@ -73,7 +72,6 @@ cacheSolve <- function(x, ...) {
         # if we get here, matrix inverse was NULL - solve for inverse
         # then set the inverse value using set function 
         # finally, return inverse value
-        print("after if loop")
         data <- x$get()
         inv <- solve(data)
         x$setinverse(inv)
